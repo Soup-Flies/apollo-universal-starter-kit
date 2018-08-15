@@ -49,18 +49,17 @@ export default () => ({
         return { errors: e };
       }
     },
-    async register(obj, { input }, { mailer, User, req }) {
+    async register(obj, { input }, { User, mailer, req }) {
       try {
-        const { t } = req;
         const e = new FieldError();
         const userExists = await User.getUserByUsername(input.username);
         if (userExists) {
-          e.setError('username', t('user:auth.password.usernameIsExisted'));
+          e.setError('username', req.t('user:auth.password.usernameIsExisted'));
         }
 
         const emailExists = await User.getUserByEmail(input.email);
         if (emailExists) {
-          e.setError('email', t('user:auth.password.emailIsExisted'));
+          e.setError('email', req.t('user:auth.password.emailIsExisted'));
         }
 
         e.throwIf();
